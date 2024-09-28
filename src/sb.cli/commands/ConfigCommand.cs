@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace sb.cli.commands
 {
-    internal class ConfigCommand
+    public static class ConfigCommand
     {
+
     }
 }
