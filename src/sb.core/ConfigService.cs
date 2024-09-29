@@ -24,6 +24,7 @@ namespace sb.core
         public static ConfigModel LoadConfig()
         {
             EnsureDirectoryExists();
+            EnsureConfigFileExists();
 
             if (_fileSystem.Exists(Constants.configPath))
             {
@@ -31,8 +32,9 @@ namespace sb.core
                 return JsonConvert.DeserializeObject<ConfigModel>(json);
             }
 
-            SaveConfig(new ConfigModel());
-            return LoadConfig();
+            var newConfig = new ConfigModel();
+            SaveConfig(newConfig);
+            return newConfig;
         }
 
         public static void SaveConfig(ConfigModel config)
@@ -110,20 +112,11 @@ namespace sb.core
             {
                 config.DestinationPath = value;
                 SaveConfig(config);
-                Console.WriteLine("Destination path updated successfully.");
+                Console.WriteLine($"Destination path updated successfully to {value}.");
             }
             else
             {
                 Console.WriteLine($"{value} is not a valid path. Please make sure the folder exists.");
-            }
-        }
-
-        private static void EnsureDirectoryExists()
-        {
-            string directoryPath = Path.GetDirectoryName(Constants.configPath);
-            if (!_fileSystem.Exists(directoryPath))
-            {
-                _fileSystem.CreateDirectory(directoryPath);
             }
         }
 
@@ -145,6 +138,24 @@ namespace sb.core
         public static void UpdateBackupTime(string value)
         {
 
+        }
+
+        // Helper Methods
+        private static void EnsureDirectoryExists()
+        {
+            string directoryPath = Path.GetDirectoryName(Constants.configPath);
+            if (!_fileSystem.Exists(directoryPath))
+            {
+                _fileSystem.CreateDirectory(directoryPath);
+            }
+        }
+
+        private static void EnsureConfigFileExists()
+        {
+            if (!_fileSystem.Exists(Constants.configPath))
+            {
+                _fileSystem.CreateFile(Constants.configPath);
+            }
         }
     }
 }
