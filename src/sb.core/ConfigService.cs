@@ -1,27 +1,21 @@
-﻿using sb.core.models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using sb.shared;
-using Newtonsoft.Json;
-using System.Text.Json;
-using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
-using System.IO;
-using System.Runtime.CompilerServices;
+﻿using Newtonsoft.Json;
 using sb.core.interfaces;
+using sb.core.models;
+using sb.core.settings;
+using sb.shared;
 
 namespace sb.core
 {
-    public static class ConfigService
+    public class ConfigService : IConfigService
     {
-        private static IFileSystem _fileSystem = new FileSystem();
+        private readonly IFileSystem _fileSystem;
 
-        public static void SetFileSystem(IFileSystem fileSystem) => _fileSystem = fileSystem;
+        public ConfigService(IFileSystem fileSystem)
+        {
+            _fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+        }
 
-        public static ConfigModel LoadConfig()
+        public ConfigModel LoadConfig()
         {
             EnsureDirectoryExists();
             EnsureConfigFileExists();
@@ -29,32 +23,39 @@ namespace sb.core
             if (_fileSystem.Exists(Constants.configPath))
             {
                 string json = _fileSystem.ReadAllText(Constants.configPath);
-                return JsonConvert.DeserializeObject<ConfigModel>(json);
+                if (string.IsNullOrEmpty(json))
+                {
+                    var config = new ConfigModel();
+                    SaveConfig(config);
+                    return config;
+                }
+
+                try
+                {
+                    return JsonConvert.DeserializeObject<ConfigModel>(json);
+                }
+                catch (Exception)
+                {
+                    var newConfig = new ConfigModel();
+                    SaveConfig(newConfig);
+                    return newConfig;
+                }
             }
 
-            var newConfig = new ConfigModel();
-            SaveConfig(newConfig);
-            return newConfig;
+            var freshConfig = new ConfigModel();
+            SaveConfig(freshConfig);
+            return freshConfig;
         }
 
-        public static void SaveConfig(ConfigModel config)
+        public void UpdateConfig(IConfigService configService, string setting, string value)
         {
-            EnsureDirectoryExists();
-
-            string json = JsonConvert.SerializeObject(config, Formatting.Indented);
-            _fileSystem.WriteAllText(Constants.configPath, json);
-        }
-
-        public static void UpdateConfig(string setting, string value)
-        {
-            var config = LoadConfig();
-
             switch (setting.ToLower())
             {
                 case "destination-path":
-                    UpdateDestinationPath(value, config);
+                    UpdateDestinationPathSetting.UpdateDestinationPath(configService, value);
                     break;
                 case "auto-compression":
+                    UpdateAutoCompressionSetting.UpdateAutoCompression(configService, value);
                     break;
                 case "auto-compression-type":
                     break;
@@ -86,62 +87,22 @@ namespace sb.core
                     break;
                 case "enable-encryption":
                     break;
-                case "encryption-key-location":
+                case "encryption-key-location": // NOT AT ALL SECURE. WILL CHANGE WHEN GET TO IT. 
+                    break;
+                default:
+                    Console.WriteLine($"Unknown setting '{setting}'.");
                     break;
             }
         }
 
-        public static void UpdateDestinationPath(string value, ConfigModel config)
+        public void SaveConfig(ConfigModel config)
         {
-            if (string.IsNullOrEmpty(value)) return;
-
-            bool isValidPath = false;
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                Regex regex = new Regex(Constants.WindowsRegexPattern);
-                isValidPath = regex.IsMatch(value) && (File.Exists(value) || Directory.Exists(value));
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                Regex regex = new Regex(Constants.LinuxRegexPattern);
-                isValidPath = regex.IsMatch(value) && (File.Exists(value) || Directory.Exists(value));
-            }
-
-            if (isValidPath)
-            {
-                config.DestinationPath = value;
-                SaveConfig(config);
-                Console.WriteLine($"Destination path updated successfully to {value}.");
-            }
-            else
-            {
-                Console.WriteLine($"{value} is not a valid path. Please make sure the folder exists.");
-            }
+            EnsureDirectoryExists();
+            string json = JsonConvert.SerializeObject(config, Formatting.Indented);
+            _fileSystem.WriteAllText(Constants.configPath, json);
         }
 
-        public static void UpdateAutoCompression(string value)
-        {
-
-        }
-
-        public static void UpdateAutoCompressionType(string value)
-        {
-
-        }
-
-        public static void UpdateSchedule(string value)
-        {
-
-        }
-
-        public static void UpdateBackupTime(string value)
-        {
-
-        }
-
-        // Helper Methods
-        private static void EnsureDirectoryExists()
+        private void EnsureDirectoryExists()
         {
             string directoryPath = Path.GetDirectoryName(Constants.configPath);
             if (!_fileSystem.Exists(directoryPath))
@@ -150,7 +111,7 @@ namespace sb.core
             }
         }
 
-        private static void EnsureConfigFileExists()
+        private void EnsureConfigFileExists()
         {
             if (!_fileSystem.Exists(Constants.configPath))
             {

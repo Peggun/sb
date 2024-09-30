@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using sb.shared.enums;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using sb.shared;
-using sb.shared.enums;
 
 namespace sb.core.models
 {

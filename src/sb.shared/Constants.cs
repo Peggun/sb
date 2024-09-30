@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 
 namespace sb.shared
 {
@@ -15,5 +10,8 @@ namespace sb.shared
 
         public const string WindowsRegexPattern = @"^(?:[a-zA-Z]:|\\)(\\[a-zA-Z0-9_-]+)+\\?$";
         public const string LinuxRegexPattern = @"^(/[^/ ]*)+/?$";
+
+        public static readonly string WindowsTestPath = "C:\\Users";
+        public static readonly string LinuxTestPath = "/home/"; // Will need to double check.
     }
 }

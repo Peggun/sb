@@ -1,19 +1,19 @@
 using Moq;
 using sb.core;
-using sb.core.models;
 using sb.core.interfaces;
-using sb.shared;
+using sb.core.models;
 
 namespace sb.tests
 {
     public class ConfigServiceTests
     {
         private readonly Mock<IFileSystem> _fileSystemMock;
+        private readonly ConfigService _configService;
 
         public ConfigServiceTests()
         {
             _fileSystemMock = new Mock<IFileSystem>();
-            ConfigService.SetFileSystem(_fileSystemMock.Object);
+            _configService = new ConfigService(_fileSystemMock.Object);
         }
 
         [Fact]
@@ -23,7 +23,7 @@ namespace sb.tests
             _fileSystemMock.Setup(fs => fs.Exists(It.IsAny<string>())).Returns(true);
             _fileSystemMock.Setup(fs => fs.ReadAllText(It.IsAny<string>())).Returns(configJson);
 
-            var config = ConfigService.LoadConfig();
+            var config = _configService.LoadConfig();
 
             Assert.NotNull(config);
             Assert.Equal("/path/to/destination", config.DestinationPath);
@@ -34,7 +34,7 @@ namespace sb.tests
         {
             _fileSystemMock.Setup(fs => fs.Exists(It.IsAny<string>())).Returns(false);
 
-            var config = ConfigService.LoadConfig();
+            var config = _configService.LoadConfig();
 
             _fileSystemMock.Verify(fs => fs.CreateFile(It.IsAny<string>()), Times.Once);
             _fileSystemMock.Verify(fs => fs.WriteAllText(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
@@ -46,7 +46,7 @@ namespace sb.tests
         {
             var config = new ConfigModel { DestinationPath = "/new/path" };
 
-            ConfigService.SaveConfig(config);
+            _configService.SaveConfig(config);
 
             _fileSystemMock.Verify(fs => fs.WriteAllText(It.IsAny<string>(), It.Is<string>(json => json.Contains("/new/path"))), Times.Once);
         }
