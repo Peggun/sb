@@ -33,19 +33,19 @@
         taskScheduler
     }
 
-    public enum CompareMethod
+    public enum CompareMethods
     {
         Timestamp,
         Checksum
     }
 
-    public enum VerificationMethod
+    public enum VerificationMethods
     {
         Checksum,
         SizeComparison
     }
 
-    public enum LogLevel
+    public enum LogLevels
     {
         Info,
         Warning,

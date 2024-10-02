@@ -20,7 +20,7 @@ namespace sb.tests
         public void LoadConfig_ShouldReturnConfig_WhenConfigExists()
         {
             string configJson = "{\"DestinationPath\": \"/path/to/destination\"}";
-            _fileSystemMock.Setup(fs => fs.Exists(It.IsAny<string>())).Returns(true);
+            _fileSystemMock.Setup(fs => fs.FileExists(It.IsAny<string>())).Returns(true);
             _fileSystemMock.Setup(fs => fs.ReadAllText(It.IsAny<string>())).Returns(configJson);
 
             var config = _configService.LoadConfig();
@@ -32,7 +32,7 @@ namespace sb.tests
         [Fact]
         public void LoadConfig_ShouldCreateNewConfig_WhenConfigDoesNotExist()
         {
-            _fileSystemMock.Setup(fs => fs.Exists(It.IsAny<string>())).Returns(false);
+            _fileSystemMock.Setup(fs => fs.FileExists(It.IsAny<string>())).Returns(false);
 
             var config = _configService.LoadConfig();
 

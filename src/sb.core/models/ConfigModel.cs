@@ -7,22 +7,22 @@ namespace sb.core.models
     {
         public string DestinationPath { get; set; } = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "sb", "backups") : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".sb", "backups");
         public bool AutoCompression { get; set; } = true;
-        public CompressionTypes AutoCompressionType { get; set; } = CompressionTypes.zip;
+        public string AutoCompressionType { get; set; } = Enum.GetName(CompressionTypes.zip);
 
-        public ScheduleTimes Schedule { get; set; } = ScheduleTimes.Weekly;
+        public string Schedule { get; set; } = Enum.GetName(ScheduleTimes.Weekly);
         public string BackupTime { get; set; } = "02:00AM";
-        public Schedulers Scheduler { get; set; } = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? Schedulers.taskScheduler : Schedulers.cron;
+        public string Scheduler { get; set; } = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? Enum.GetName(Schedulers.taskScheduler) : Enum.GetName(Schedulers.cron);
 
         public bool UseIncremental { get; set; } = false;
-        public CompareMethod CompareMethod { get; set; } = CompareMethod.Timestamp;
+        public string CompareMethod { get; set; } = Enum.GetName(CompareMethods.Timestamp);
 
         public bool RestoreOverwriteBehavior { get; set; } = true; // true = overwrite existing files
         public string RestoreDirectory { get; set; } = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "sb", "restored") : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".sb", "restored");
 
         public bool EnableAutoVerification { get; set; } = false;
-        public VerificationMethod VerificationMethod { get; set; } = VerificationMethod.Checksum;
+        public string VerificationMethod { get; set; } = Enum.GetName(VerificationMethods.Checksum);
 
-        public LogLevel LogLevel { get; set; } = LogLevel.Info;
+        public string LogLevel { get; set; } = Enum.GetName(LogLevels.Info);
         public bool Log { get; set; } = true;
         public string LogFilePath { get; set; } = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "sb", "logs") : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".sb", "logs");
 

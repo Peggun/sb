@@ -2,7 +2,8 @@
 {
     public interface IFileSystem
     {
-        bool Exists(string path);
+        bool FileExists(string path);
+        bool DirExists(string path);
         string ReadAllText(string path);
         void WriteAllText(string path, string contents);
         void CreateFile(string path);
@@ -11,7 +12,8 @@
 
     public class FileSystem : IFileSystem
     {
-        public bool Exists(string path) => File.Exists(path);
+        public bool FileExists(string path) => File.Exists(path);
+        public bool DirExists(string path) => Directory.Exists(path);
         public string ReadAllText(string path) => File.ReadAllText(path);
         public void WriteAllText(string path, string contents) => File.WriteAllText(path, contents);
         public void CreateFile(string path) => File.Create(path).Dispose();

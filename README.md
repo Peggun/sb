@@ -1,2 +1,4 @@
 # sb
- sb is a tool to manage your backups
+sb, Simple Backup, is a tool to be able to manage your backups efficiently. Here is the documentation.
+
+## Commands

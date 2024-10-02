@@ -20,7 +20,7 @@ namespace sb.core
             EnsureDirectoryExists();
             EnsureConfigFileExists();
 
-            if (_fileSystem.Exists(Constants.configPath))
+            if (_fileSystem.FileExists(Constants.configPath))
             {
                 string json = _fileSystem.ReadAllText(Constants.configPath);
                 if (string.IsNullOrEmpty(json))
@@ -58,34 +58,47 @@ namespace sb.core
                     UpdateAutoCompressionSetting.UpdateAutoCompression(configService, value);
                     break;
                 case "auto-compression-type":
+                    UpdateAutoCompressionTypeSetting.UpdateAutoCompressionType(configService, value);
                     break;
                 case "schedule":
+                    
                     break;
                 case "backup-time":
                     break;
                 case "scheduler":
+                    UpdateSchedulerSetting.UpdateScheduler(configService, value);
                     break;
                 case "use-incremental":
+                    
                     break;
                 case "incremental-compare-method":
+                    UpdateIncrementalCompareMethodSetting.UpdateIncrementalCompareMethod(configService, value);
                     break;
                 case "restore-overwrite-behavior":
+                    UpdateRestoreOverwriteBehaviorSetting.UpdateRestoreOverwriteBehavior(configService, value); 
                     break;
                 case "restore-directory":
+                    UpdateRestoreDirectorySetting.UpdateRestoreDirectory(configService, value);
                     break;
                 case "enable-auto-verification":
+                    UpdateEnableAutoVerificationSetting.UpdateEnableAutoVerification(configService, value);
                     break;
                 case "verification-method":
                     break;
                 case "log":
+                    UpdateLogSetting.UpdateLog(configService, value);
                     break;
                 case "log-file-path":
+                    UpdateLogFilePathSetting.UpdateLogFilePath(configService, value);
                     break;
                 case "retention-length":
+                    UpdateRetentionLengthSetting.UpdateRetentionPolicy(configService, value);
                     break;
                 case "auto-delete-backups":
+                    UpdateAutoDeleteBackupsSetting.UpdateAutoDeleteBackups(configService, value);
                     break;
                 case "enable-encryption":
+                    UpdateEnableEncryptionSetting.UpdateEnableEncryption(configService, value);
                     break;
                 case "encryption-key-location": // NOT AT ALL SECURE. WILL CHANGE WHEN GET TO IT. 
                     break;
@@ -104,16 +117,15 @@ namespace sb.core
 
         private void EnsureDirectoryExists()
         {
-            string directoryPath = Path.GetDirectoryName(Constants.configPath);
-            if (!_fileSystem.Exists(directoryPath))
+            if (!_fileSystem.DirExists(Constants.sbConfigFolder))
             {
-                _fileSystem.CreateDirectory(directoryPath);
+                _fileSystem.CreateDirectory(Constants.sbConfigFolder);
             }
         }
 
         private void EnsureConfigFileExists()
         {
-            if (!_fileSystem.Exists(Constants.configPath))
+            if (!_fileSystem.FileExists(Constants.configPath))
             {
                 _fileSystem.CreateFile(Constants.configPath);
             }

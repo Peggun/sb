@@ -1,5 +1,6 @@
 ﻿using sb.core.interfaces;
 using sb.shared;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
@@ -9,6 +10,8 @@ namespace sb.core.settings
     {
         public static void UpdateDestinationPath(IConfigService configService, string value)
         {
+            IFileSystem _fileSystem = new FileSystem();
+
             if (string.IsNullOrEmpty(value))
             {
                 Console.WriteLine("Please add a value for this setting.");
@@ -21,19 +24,19 @@ namespace sb.core.settings
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 Regex regex = new Regex(Constants.WindowsRegexPattern);
-                isValidPath = regex.IsMatch(value) && (File.Exists(value) || Directory.Exists(value));
+                isValidPath = regex.IsMatch(value) && (_fileSystem.FileExists(value) || _fileSystem.DirExists(value));
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 Regex regex = new Regex(Constants.LinuxRegexPattern);
-                isValidPath = regex.IsMatch(value) && (File.Exists(value) || Directory.Exists(value));
+                isValidPath = regex.IsMatch(value) && (_fileSystem.FileExists(value) || _fileSystem.DirExists(value));
             }
 
             if (isValidPath)
             {
                 config.DestinationPath = value;
                 configService.SaveConfig(config);
-                Console.WriteLine($"Destination path updated successfully to {value}.");
+                Console.WriteLine($"Destination Path updated successfully to {value}.");
             }
             else
             {
