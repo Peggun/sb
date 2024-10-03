@@ -18,7 +18,7 @@ sb config [setting] [value]
 | `auto-compression` | Sets AutoCompression to a bool. It automatically compresses to AutoCompressionType if True. | `true` | `true` | `true` | `true` or `false` |
 | `auto-compression-type` | Sets the AutoCompressionType to a CompressionTypes Enum. Sets the type of compression file used for AutoCompression. | `zip` | `zip` | `zip` | `zip`, `gz`, `lz`, `tar`, `sz (7z)`, `rar`, `cab`, `iso`, `targz`, `tarbzt (tar.bz2)`,`tarxz`, `bzt (bz2)`, `deb`, `rpm` |
 | `auto-delete-backups` | Sets AutoDeleteBackups to a bool. Determines if the program periodically deletes previous backups. | `false` | `true` | `true` |`true` or `false` |
-| `backup-time` | Sets the time for backups to occur during the day. Allows 12 and 24 hour time using DateTime for formatting. | `02:00`  | `02:00` | `02:00` | Anytime in that format (24 hr time)
+| `backup-time` | Sets the time for backups to occur during the day. Allows 12 and 24 hour time using DateTime for formatting. Using the HH:mm format. | `02:00`  | `02:00` | `02:00` | Anytime in that format (24 hr time)
 | `destination-path` | Sets the DestinationPath to a file path where the backups will be stored. | `C:\backups\` | `C:\Users\{user}\AppData\Roaming\sb\backups` | `/home/{user}/.sb/backups` | Any folder that exists on the machine | 
 | `enable-auto-verification` | Allows automatic verification of backups files after completion. | `true` | `false` | `false` | `true` or `false` |
 | `enable-encryption` | Allows encryption to be set on newly created backup files. | `true` | `false` | `false` | `true` or `false` |
