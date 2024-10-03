@@ -10,8 +10,8 @@ namespace sb.core.models
         public string AutoCompressionType { get; set; } = Enum.GetName(CompressionTypes.zip);
 
         public string Schedule { get; set; } = Enum.GetName(ScheduleTimes.Weekly);
-        public string BackupTime { get; set; } = "02:00AM";
-        public string Scheduler { get; set; } = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? Enum.GetName(Schedulers.taskScheduler) : Enum.GetName(Schedulers.cron);
+        public string BackupTime { get; set; } = "02:00";
+        public string Scheduler { get; set; } = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? Enum.GetName(Schedulers.TaskScheduler) : Enum.GetName(Schedulers.Cron);
 
         public bool UseIncremental { get; set; } = false;
         public string CompareMethod { get; set; } = Enum.GetName(CompareMethods.Timestamp);
@@ -30,6 +30,6 @@ namespace sb.core.models
         public bool AutoDeleteOldBackups { get; set; } = true;
 
         public bool EnableEncryption { get; set; } = false;
-        public string EncryptionKeyLocation { get; set; } = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "sb", "key") : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".sb", "key");
+        public string EncryptionKeyLocation { get; set; } = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "sb", "key") : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".sb", "keys");
     }
 }

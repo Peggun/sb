@@ -29,8 +29,8 @@
 
     public enum Schedulers
     {
-        cron,
-        taskScheduler
+        Cron,
+        TaskScheduler
     }
 
     public enum CompareMethods
