@@ -2,7 +2,6 @@
 using sb.core.interfaces;
 using sb.core.models;
 using sb.core.settings;
-using System.IO;
 
 namespace sb.tests
 {

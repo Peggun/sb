@@ -6,7 +6,28 @@ namespace sb.core.settings
     {
         public static void UpdateBackupTime(IConfigService configService, string value)
         {
+            DateTime time;
 
+            if (string.IsNullOrEmpty(value))
+            {
+                Console.WriteLine("Please provide a value for this setting.");
+                return;
+            }
+
+            if (DateTime.TryParseExact(value, "HH:mm", null, System.Globalization.DateTimeStyles.None, out time))
+            {
+                Console.WriteLine(time.TimeOfDay.ToString());
+
+                var config = configService.LoadConfig();
+                config.BackupTime = time;
+
+                configService.SaveConfig(config);
+            }
+            else
+            {
+                Console.WriteLine("Invalid format. Please use HH:mm format");
+                return;
+            }
         }
 
         // Helper Methods // Custom Time Parser //

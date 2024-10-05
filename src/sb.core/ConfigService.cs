@@ -61,21 +61,22 @@ namespace sb.core
                     UpdateAutoCompressionTypeSetting.UpdateAutoCompressionType(configService, value);
                     break;
                 case "schedule":
-                    
+                    UpdateScheduleSetting.UpdateSchedule(configService, value);
                     break;
                 case "backup-time":
+                    UpdateBackupTimeSetting.UpdateBackupTime(configService, value);
                     break;
                 case "scheduler":
                     UpdateSchedulerSetting.UpdateScheduler(configService, value);
                     break;
                 case "use-incremental":
-                    
+                    UpdateUseIncrementalSetting.UpdateUseIncremental(configService, value);
                     break;
                 case "incremental-compare-method":
                     UpdateIncrementalCompareMethodSetting.UpdateIncrementalCompareMethod(configService, value);
                     break;
                 case "restore-overwrite-behavior":
-                    UpdateRestoreOverwriteBehaviorSetting.UpdateRestoreOverwriteBehavior(configService, value); 
+                    UpdateRestoreOverwriteBehaviorSetting.UpdateRestoreOverwriteBehavior(configService, value);
                     break;
                 case "restore-directory":
                     UpdateRestoreDirectorySetting.UpdateRestoreDirectory(configService, value);
@@ -84,6 +85,7 @@ namespace sb.core
                     UpdateEnableAutoVerificationSetting.UpdateEnableAutoVerification(configService, value);
                     break;
                 case "verification-method":
+                    UpdateVerificationMethodSetting.UpdateVerificationMethod(configService, value);
                     break;
                 case "log":
                     UpdateLogSetting.UpdateLog(configService, value);

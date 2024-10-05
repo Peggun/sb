@@ -10,7 +10,7 @@ namespace sb.core.models
         public string AutoCompressionType { get; set; } = Enum.GetName(CompressionTypes.zip);
 
         public string Schedule { get; set; } = Enum.GetName(ScheduleTimes.Weekly);
-        public string BackupTime { get; set; } = "02:00";
+        public DateTime BackupTime { get; set; } = new DateTime(1, 1, 1, 2, 0, 0); // 02:00 or 2:00 AM
         public string Scheduler { get; set; } = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? Enum.GetName(Schedulers.TaskScheduler) : Enum.GetName(Schedulers.Cron);
 
         public bool UseIncremental { get; set; } = false;

@@ -3,7 +3,6 @@ using sb.core.interfaces;
 using sb.core.models;
 using sb.core.settings;
 using sb.shared.enums;
-using System.Diagnostics;
 
 namespace sb.tests
 {

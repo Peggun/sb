@@ -15,7 +15,9 @@
         tarxz,
         bzt, // .bz2
         deb,
-        rpm
+        rpm,
+        lzma,
+        lzw
     }
 
     public enum ScheduleTimes
@@ -52,4 +54,12 @@
         Error,
         Debug
     }
+
+    public enum BackupType
+    {
+        Full,
+        Incremental,
+        Differential
+    }
+
 }

@@ -12,6 +12,9 @@ class Program
         // Instantiate the file system and config service
         IFileSystem fileSystem = new FileSystem();
         IConfigService configService = new ConfigService(fileSystem);
+        CompressionService compression = new CompressionService();
+
+        compression.Compress7Zip("C:\\Users\\prest\\source\\repos\\tests", "C:\\Users\\prest\\source\\repos");
 
         // Define the config command
         var configCommand = new Command("config", "Configure sb backup tool")

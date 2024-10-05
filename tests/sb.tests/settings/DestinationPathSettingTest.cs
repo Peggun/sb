@@ -4,7 +4,6 @@ using sb.core.models;
 using sb.core.settings;
 using sb.shared;
 using System.Runtime.InteropServices;
-using System.IO;
 
 namespace sb.tests
 {

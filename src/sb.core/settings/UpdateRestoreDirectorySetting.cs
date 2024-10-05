@@ -30,7 +30,7 @@ namespace sb.core.settings
                 Regex regex = new Regex(Constants.LinuxRegexPattern);
                 isValidPath = regex.IsMatch(value) && (_fileSystem.FileExists(value) || _fileSystem.DirExists(value));
             }
-            
+
             if (isValidPath)
             {
                 config.RestoreDirectory = value;

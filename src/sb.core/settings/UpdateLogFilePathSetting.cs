@@ -1,5 +1,4 @@
-﻿using Castle.Components.DictionaryAdapter;
-using sb.core.interfaces;
+﻿using sb.core.interfaces;
 using sb.shared;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
